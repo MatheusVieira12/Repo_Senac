@@ -18,7 +18,7 @@ print('Acesso liberado')'''
 
 '''while True:
     num = int(input('digite um numero: '))
-    if num < 10:
+    if num > 10:
         print('é menor')
         break
 
