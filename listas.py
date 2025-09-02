@@ -1,11 +1,14 @@
 
-cliente = []
+produto = []
+preço = []
+
 while True:
+
     try:
-        produto = (input('Digite quantos produtos quer adicionar: '))
-        cliente.append(produto)
-        sair = input('Deseja inserir mais um produto: (S/N)').upper().strip()
-        if sair == 'N':
+        produto = (input('Digite o nome do produto: '))
+        preço = int(input('Digite o preço do produto: '))
+        op = int(input('quer adicionar mais um? '))
+        if op == 'n':
             break
 
     except:
