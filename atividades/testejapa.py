@@ -76,7 +76,7 @@ while True:
     try:
         op = int(input('\n Escolha uma opção: \n 1- Visualizar cardápio\n 2- Registrar pedido \n 3- Fechar a conta \n 4- Ver pedidos registrados \n 5- Sair \n'))
         if op not in [1, 2, 3, 4, 5]:
-            print("Opção inválida. Tente novamente.")
+            print("Entrada inválida. Digite um número entre 1 e 5.")
             continue
     except:
         print("Entrada inválida. Digite um número entre 1 e 5.")
