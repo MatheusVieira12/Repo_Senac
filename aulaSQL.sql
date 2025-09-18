@@ -193,13 +193,14 @@ GROUP BY estado;
 
 SELECT estado, SUM(quantidade * valor_unitario) AS valor_vendido
 FROM venda
-GROUP BY estado;
+GROUP BY estado
+ORDER BY valor_vendido DESC;
 
 SELECT cliente, SUM(valor_unitario * quantidade) AS total_cliente
 FROM venda
-WHERE categoria = 'Informática'
+WHERE categoria IN ('Informática', 'Acessórios')
 GROUP BY cliente
-HAVING total_cliente > 5000 AND total_cliente < 50000;
+HAVING total_cliente > 5000 AND total_cliente < 200000;
 
 ### ATIVIDADE DE AULA
 
@@ -246,19 +247,84 @@ WHERE cidade = 'Curitiba' OR cidade = 'Porto Alegre' OR cidade = 'Belo Horizonte
 GROUP BY valor_unitario
 HAVING Total_vendidoEstado > 5000;
 
-SELECT categoria, cliente AVG(valor_unitario) 
-FROM venda
+SELECT categoria, cliente, AVG(valor_unitario) AS media
+FROM venda 
 WHERE categoria = 'Informática'
 GROUP BY cliente
-HAVING media > 200;
+HAVING (media) > 200; 
+
+### ------------------------------------------------------------------
+
+CREATE TABLE clientes (
+	id INT PRIMARY KEY, 
+	nome VARCHAR(100)
+);
+
+CREATE TABLE produtos (
+    id INT PRIMARY KEY,
+    produto VARCHAR(100),
+    categoria VARCHAR(100),
+    valor_unitario DECIMAL(10,2)
+);
+
+CREATE TABLE pedidos (
+    id INT PRIMARY KEY,
+    cliente_id INT,
+    produto_id INT,
+    FOREIGN KEY(cliente_id) REFERENCES clientes(id),
+    FOREIGN KEY(produto_id) REFERENCES produtos(id)
+);
 
 
+INSERT INTO clientes (id, nome) 
+VALUES
+	(1, 'matheus' ),
+	(2, 'lucas' ),
+	(3, 'theo' ),
+	(5, 'juan' ),
+	(8, 'alfredo' );
+    
+INSERT INTO produtos(id, produto, categoria, valor_unitario)
+VALUES
+	(1, 'Geladeira', 'Eletrônico', 1300.00 ),
+	(2, 'impressora', 'informática', 1500.00 ),
+	(3, 'mouse', 'Eletrônico', 200.00 ),
+	(4, 'smartphone', 'Eletrônico', 1300.00 ),
+	(5, 'tablet', 'acessórios', 1800.00 ),
+	(6, 'monitor', 'informática', 1300.00 ),
+	(7, 'fone de ouvido', 'acessórios', 100.00 );
 
+INSERT INTO pedidos (id, cliente_id, produto_id) 
+VALUES
+	(1, 8, 1),
+	(2, 1, 2),
+	(3, 2, 3),
+	(5, 1, 4),
+	(8, 2, 5),
+	(9, 3, 6),
+	(10, 8, 7),
+	(12, 5, 7),
+	(21, 3, 6),
+	(15, 1, 1);
+    
+SELECT clientes.nome, produtos.produto, pedidos.id
+FROM pedidos
+LEFT JOIN clientes ON pedidos.cliente_id = clientes.id
+LEFT JOIN produtos ON pedidos.produto_id = produtos.id;
 
+SELECT produto, categoria, AVG(valor_unitario) 
+FROM produtos
+GROUP BY categoria
+HAVING AVG(valor_unitario);
 
- 
- 
+SELECT produto, categoria, valor_unitario
+FROM produtos
+WHERE valor_unitario > 1000;
 
-
+SELECT clientes.nome, produtos.produto, pedidos.id
+FROM pedidos
+JOIN clientes ON pedidos.cliente_id = clientes.id
+JOIN produtos ON pedidos.produto_id = produtos.id
+WHERE valor_unitario > 1500;
 
  
